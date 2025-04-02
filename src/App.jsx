@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/lost" element={LostFoundApp} />
+          <Route path="/lost" element={ <LostFoundApp /> } />
         </Routes>
         <Toaster position="top-right" />
       </div>

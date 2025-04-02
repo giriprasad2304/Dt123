@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import './style.css'; // assume your CSS styles are in this file
 
 // Initialize Supabase Client
 const supabaseUrl = 'https://dtholcvwoxinthslvryl.supabase.co';
@@ -167,21 +166,23 @@ const LostFoundApp = () => {
   // Render a list of items for lost or found sections
   const renderItems = (items, type) => {
     return items.map((item) => (
-      <div className="item-card" key={item.id}>
-        <h3>{item.item_name || 'Unnamed'}</h3>
-        <p>Category: {item.category || 'N/A'}</p>
-        <p>
+      <div className="item-card bg-white shadow rounded p-4 mb-4" key={item.id}>
+        <h3 className="text-xl font-bold mb-2">{item.item_name || 'Unnamed'}</h3>
+        <p className="mb-1">Category: <span className="font-medium">{item.category || 'N/A'}</span></p>
+        <p className="mb-1">
           Date {type === 'lost' ? 'Lost' : 'Found'}:{' '}
-          {type === 'lost' ? item.date_lost || 'N/A' : item.date_found || 'N/A'}
+          <span className="font-medium">
+            {type === 'lost' ? item.date_lost || 'N/A' : item.date_found || 'N/A'}
+          </span>
         </p>
-        <p>Location: {item.location || 'N/A'}</p>
-        <p>Description: {item.description || 'No description'}</p>
-        <p>Contact: {item.contact_email || 'N/A'}</p>
+        <p className="mb-1">Location: <span className="font-medium">{item.location || 'N/A'}</span></p>
+        <p className="mb-1">Description: {item.description || 'No description'}</p>
+        <p className="mb-2">Contact: <span className="font-medium">{item.contact_email || 'N/A'}</span></p>
         {item.image_url && (
           <img
             src={item.image_url}
             alt={item.item_name || 'Image'}
-            style={{ maxWidth: '100%' }}
+            className="w-full rounded"
           />
         )}
       </div>
@@ -189,33 +190,42 @@ const LostFoundApp = () => {
   };
 
   return (
-    <div className="lost-found-app">
-      <header>
-        <div className="logo">Lost &amp; Found</div>
-        <nav>
-          <button className="nav-item" onClick={() => setActiveSection('home')}>
+    <div className="lost-found-app min-h-screen bg-gray-100 relative">
+      <header className="bg-blue-600 text-white py-4 px-6 flex justify-between items-center">
+        <div className="logo text-2xl font-bold">Lost &amp; Found</div>
+        <nav className="flex flex-wrap gap-2">
+          <button
+            className="nav-item px-3 py-1 rounded hover:bg-blue-500"
+            onClick={() => setActiveSection('home')}
+          >
             Home
           </button>
-          <button className="nav-item" onClick={() => setActiveSection('lost')}>
+          <button
+            className="nav-item px-3 py-1 rounded hover:bg-blue-500"
+            onClick={() => setActiveSection('lost')}
+          >
             Browse Lost Items
           </button>
           <button
-            className="nav-item"
+            className="nav-item px-3 py-1 rounded hover:bg-blue-500"
             onClick={() => setActiveSection('found')}
           >
             Browse Found Items
           </button>
-          <a className="nav-item" href="/frontend/home/home.html">
+          <a
+            className="nav-item px-3 py-1 rounded hover:bg-blue-500"
+            href="/frontend/home/home.html"
+          >
             Back To Main Page
           </a>
           <button
-            className="nav-item btn"
+            className="nav-item btn px-3 py-1 bg-green-500 text-white rounded hover:bg-green-400"
             onClick={() => setShowLostModal(true)}
           >
             Report Lost Item
           </button>
           <button
-            className="nav-item btn"
+            className="nav-item btn px-3 py-1 bg-green-500 text-white rounded hover:bg-green-400"
             onClick={() => setShowFoundModal(true)}
           >
             Report Found Item
@@ -223,19 +233,25 @@ const LostFoundApp = () => {
         </nav>
       </header>
 
-      <main>
+      <main className="px-6 py-8">
         {activeSection === 'home' && (
-          <section id="home-section" className="section">
-            <h1>Have you Lost something?</h1>
-            <section>
-              <h1>Have you Found something?</h1>
-            </section>
-            <p>Our platform helps reunite lost items with their owners.</p>
-            <div className="hero-buttons">
-              <button className="btn" onClick={() => setActiveSection('lost')}>
+          <section id="home-section" className="section text-center">
+            <h1 className="text-4xl font-bold mb-4">Have you Lost something?</h1>
+            <h1 className="text-4xl font-bold mb-4">Have you Found something?</h1>
+            <p className="text-lg mb-6">
+              Our platform helps reunite lost items with their owners.
+            </p>
+            <div className="hero-buttons flex justify-center gap-4">
+              <button
+                className="btn px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+                onClick={() => setActiveSection('lost')}
+              >
                 Browse Lost Items
               </button>
-              <button className="btn" onClick={() => setActiveSection('found')}>
+              <button
+                className="btn px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+                onClick={() => setActiveSection('found')}
+              >
                 Browse Found Items
               </button>
             </div>
@@ -244,166 +260,173 @@ const LostFoundApp = () => {
 
         {activeSection === 'lost' && (
           <section id="lost-section" className="section">
-            <div className="header">
-              <h1>Lost Items</h1>
-              <p>
-                Browse reported lost items and help reunite them with their
-                owners.
+            <div className="header mb-6">
+              <h1 className="text-3xl font-bold">Lost Items</h1>
+              <p className="text-gray-700">
+                Browse reported lost items and help reunite them with their owners.
               </p>
             </div>
-            <div className="filters">
-              <div className="search-bar">
-                <span className="search-icon">🔍</span>
+            <div className="filters mb-6 flex flex-col md:flex-row items-center gap-4">
+              <div className="search-bar flex items-center bg-white p-2 rounded shadow">
+                <span className="search-icon mr-2">🔍</span>
                 <input
                   type="text"
                   placeholder="Search lost items..."
+                  className="outline-none"
                   value={lostSearch}
                   onChange={(e) => setLostSearch(e.target.value)}
                 />
               </div>
-              <div className="filter-options">
-                <label>Category:</label>
-                <select
-                  value={lostCategory}
-                  onChange={(e) => setLostCategory(e.target.value)}
-                >
-                  <option value="all">All</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Accessories">Accessories</option>
-                  <option value="Bags">Bags</option>
-                </select>
-                <label>Date:</label>
-                <select
-                  value={lostDate}
-                  onChange={(e) => setLostDate(e.target.value)}
-                >
-                  <option value="all">All Time</option>
-                  <option value="24h">Last 24 Hours</option>
-                  <option value="week">Last Week</option>
-                  <option value="month">Last Month</option>
-                </select>
+              <div className="filter-options flex items-center gap-4">
+                <div>
+                  <label className="mr-2 font-medium">Category:</label>
+                  <select
+                    value={lostCategory}
+                    onChange={(e) => setLostCategory(e.target.value)}
+                    className="p-1 border rounded"
+                  >
+                    <option value="all">All</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Bags">Bags</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mr-2 font-medium">Date:</label>
+                  <select
+                    value={lostDate}
+                    onChange={(e) => setLostDate(e.target.value)}
+                    className="p-1 border rounded"
+                  >
+                    <option value="all">All Time</option>
+                    <option value="24h">Last 24 Hours</option>
+                    <option value="week">Last Week</option>
+                    <option value="month">Last Month</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div className="items-grid">{renderItems(lostItems, 'lost')}</div>
+            <div className="items-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {renderItems(lostItems, 'lost')}
+            </div>
           </section>
         )}
 
         {activeSection === 'found' && (
           <section id="found-section" className="section">
-            <div className="header">
-              <h1>Found Items</h1>
-              <p>Browse items found by others and claim what’s yours.</p>
+            <div className="header mb-6">
+              <h1 className="text-3xl font-bold">Found Items</h1>
+              <p className="text-gray-700">
+                Browse items found by others and claim what’s yours.
+              </p>
             </div>
-            <div className="filters">
-              <div className="search-bar">
-                <span className="search-icon">🔍</span>
+            <div className="filters mb-6 flex flex-col md:flex-row items-center gap-4">
+              <div className="search-bar flex items-center bg-white p-2 rounded shadow">
+                <span className="search-icon mr-2">🔍</span>
                 <input
                   type="text"
                   placeholder="Search found items..."
+                  className="outline-none"
                   value={foundSearch}
                   onChange={(e) => setFoundSearch(e.target.value)}
                 />
               </div>
-              <div className="filter-options">
-                <label>Category:</label>
-                <select
-                  value={foundCategory}
-                  onChange={(e) => setFoundCategory(e.target.value)}
-                >
-                  <option value="all">All</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Accessories">Accessories</option>
-                  <option value="Bags">Bags</option>
-                </select>
-                <label>Date:</label>
-                <select
-                  value={foundDate}
-                  onChange={(e) => setFoundDate(e.target.value)}
-                >
-                  <option value="all">All Time</option>
-                  <option value="24h">Last 24 Hours</option>
-                  <option value="week">Last Week</option>
-                  <option value="month">Last Month</option>
-                </select>
+              <div className="filter-options flex items-center gap-4">
+                <div>
+                  <label className="mr-2 font-medium">Category:</label>
+                  <select
+                    value={foundCategory}
+                    onChange={(e) => setFoundCategory(e.target.value)}
+                    className="p-1 border rounded"
+                  >
+                    <option value="all">All</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Bags">Bags</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mr-2 font-medium">Date:</label>
+                  <select
+                    value={foundDate}
+                    onChange={(e) => setFoundDate(e.target.value)}
+                    className="p-1 border rounded"
+                  >
+                    <option value="all">All Time</option>
+                    <option value="24h">Last 24 Hours</option>
+                    <option value="week">Last Week</option>
+                    <option value="month">Last Month</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div className="items-grid">{renderItems(foundItems, 'found')}</div>
+            <div className="items-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {renderItems(foundItems, 'found')}
+            </div>
           </section>
         )}
       </main>
 
       {/* Floating Images */}
-      <div
-        className="floating-images"
-        style={{ position: 'absolute', zIndex: -1, opacity: 0.5 }}
-      >
+      <div className="floating-images absolute inset-0 z-[-1] opacity-50">
         <img
           src="OIP"
           alt="Keys"
-          className="img-keys"
-          style={{
-            position: 'absolute',
-            width: '100px',
-            top: '0%',
-            left: '20%',
-          }}
+          className="img-keys absolute w-24 top-0 left-1/5"
         />
         <img
           src="images/phones.png"
           alt="Phones"
-          className="img-phones"
-          style={{
-            position: 'absolute',
-            width: '100px',
-            top: '30%',
-            left: '50%',
-          }}
+          className="img-phones absolute w-24 top-1/3 left-1/2"
         />
         <img
           src="images/bags.png"
           alt="Bags"
-          className="img-bags"
-          style={{
-            position: 'absolute',
-            width: '100px',
-            top: '50%',
-            left: '70%',
-          }}
+          className="img-bags absolute w-24 top-1/2 left-3/4"
         />
         <img
           src="images/books.png"
           alt="Books"
-          className="img-books"
-          style={{
-            position: 'absolute',
-            width: '100px',
-            top: '70%',
-            left: '30%',
-          }}
+          className="img-books absolute w-24 top-3/4 left-1/3"
         />
       </div>
 
       {/* Report Lost Modal */}
       {showLostModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Report Lost Item</h2>
+        <div className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="modal-content bg-white rounded-lg w-full max-w-md mx-4 p-6 relative">
+            <div className="modal-header flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Report Lost Item</h2>
               <button
-                className="close-btn"
+                className="close-btn text-xl font-bold"
                 onClick={() => setShowLostModal(false)}
               >
-                ×
+                &times;
               </button>
             </div>
             <form id="lost-form" onSubmit={handleLostSubmit}>
-              <div className="form-group">
-                <label htmlFor="lost-name">Item Name</label>
-                <input type="text" id="lost-name" name="name" required />
+              <div className="form-group mb-4">
+                <label htmlFor="lost-name" className="block font-medium mb-1">
+                  Item Name
+                </label>
+                <input
+                  type="text"
+                  id="lost-name"
+                  name="name"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="lost-cat">Category</label>
-                <select id="lost-cat" name="category" required>
+              <div className="form-group mb-4">
+                <label htmlFor="lost-cat" className="block font-medium mb-1">
+                  Category
+                </label>
+                <select
+                  id="lost-cat"
+                  name="category"
+                  required
+                  className="w-full p-2 border rounded"
+                >
                   <option value="">Select Category</option>
                   <option value="Electronics">Electronics</option>
                   <option value="Accessories">Accessories</option>
@@ -411,35 +434,76 @@ const LostFoundApp = () => {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              <div className="form-group">
-                <label htmlFor="lost-date-lost">Date Lost</label>
-                <input type="date" id="lost-date-lost" name="date" required />
+              <div className="form-group mb-4">
+                <label htmlFor="lost-date-lost" className="block font-medium mb-1">
+                  Date Lost
+                </label>
+                <input
+                  type="date"
+                  id="lost-date-lost"
+                  name="date"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="lost-loc">Location</label>
-                <input type="text" id="lost-loc" name="location" required />
+              <div className="form-group mb-4">
+                <label htmlFor="lost-loc" className="block font-medium mb-1">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  id="lost-loc"
+                  name="location"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="lost-desc">Description</label>
-                <textarea id="lost-desc" name="description" required></textarea>
+              <div className="form-group mb-4">
+                <label htmlFor="lost-desc" className="block font-medium mb-1">
+                  Description
+                </label>
+                <textarea
+                  id="lost-desc"
+                  name="description"
+                  required
+                  className="w-full p-2 border rounded"
+                ></textarea>
               </div>
-              <div className="form-group">
-                <label htmlFor="lost-email">Contact Email</label>
-                <input type="email" id="lost-email" name="email" required />
+              <div className="form-group mb-4">
+                <label htmlFor="lost-email" className="block font-medium mb-1">
+                  Contact Email
+                </label>
+                <input
+                  type="email"
+                  id="lost-email"
+                  name="email"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="lost-img">Image URL (Optional)</label>
-                <input type="url" id="lost-img" name="image" />
+              <div className="form-group mb-4">
+                <label htmlFor="lost-img" className="block font-medium mb-1">
+                  Image URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  id="lost-img"
+                  name="image"
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-buttons">
+              <div className="form-buttons flex justify-end gap-4">
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className="cancel-btn px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                   onClick={() => setShowLostModal(false)}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="submit-btn">
+                <button
+                  type="submit"
+                  className="submit-btn px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+                >
                   Submit
                 </button>
               </div>
@@ -450,25 +514,40 @@ const LostFoundApp = () => {
 
       {/* Report Found Modal */}
       {showFoundModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Report Found Item</h2>
+        <div className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="modal-content bg-white rounded-lg w-full max-w-md mx-4 p-6 relative">
+            <div className="modal-header flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Report Found Item</h2>
               <button
-                className="close-btn"
+                className="close-btn text-xl font-bold"
                 onClick={() => setShowFoundModal(false)}
               >
-                ×
+                &times;
               </button>
             </div>
             <form id="found-form" onSubmit={handleFoundSubmit}>
-              <div className="form-group">
-                <label htmlFor="found-name">Item Name</label>
-                <input type="text" id="found-name" name="name" required />
+              <div className="form-group mb-4">
+                <label htmlFor="found-name" className="block font-medium mb-1">
+                  Item Name
+                </label>
+                <input
+                  type="text"
+                  id="found-name"
+                  name="name"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="found-cat">Category</label>
-                <select id="found-cat" name="category" required>
+              <div className="form-group mb-4">
+                <label htmlFor="found-cat" className="block font-medium mb-1">
+                  Category
+                </label>
+                <select
+                  id="found-cat"
+                  name="category"
+                  required
+                  className="w-full p-2 border rounded"
+                >
                   <option value="">Select Category</option>
                   <option value="Electronics">Electronics</option>
                   <option value="Accessories">Accessories</option>
@@ -476,39 +555,76 @@ const LostFoundApp = () => {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              <div className="form-group">
-                <label htmlFor="found-date-found">Date Found</label>
-                <input type="date" id="found-date-found" name="date" required />
+              <div className="form-group mb-4">
+                <label htmlFor="found-date-found" className="block font-medium mb-1">
+                  Date Found
+                </label>
+                <input
+                  type="date"
+                  id="found-date-found"
+                  name="date"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="found-loc">Location</label>
-                <input type="text" id="found-loc" name="location" required />
+              <div className="form-group mb-4">
+                <label htmlFor="found-loc" className="block font-medium mb-1">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  id="found-loc"
+                  name="location"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="found-desc">Description</label>
+              <div className="form-group mb-4">
+                <label htmlFor="found-desc" className="block font-medium mb-1">
+                  Description
+                </label>
                 <textarea
                   id="found-desc"
                   name="description"
                   required
+                  className="w-full p-2 border rounded"
                 ></textarea>
               </div>
-              <div className="form-group">
-                <label htmlFor="found-email">Contact Email</label>
-                <input type="email" id="found-email" name="email" required />
+              <div className="form-group mb-4">
+                <label htmlFor="found-email" className="block font-medium mb-1">
+                  Contact Email
+                </label>
+                <input
+                  type="email"
+                  id="found-email"
+                  name="email"
+                  required
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-group">
-                <label htmlFor="found-img">Image URL (Optional)</label>
-                <input type="url" id="found-img" name="image" />
+              <div className="form-group mb-4">
+                <label htmlFor="found-img" className="block font-medium mb-1">
+                  Image URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  id="found-img"
+                  name="image"
+                  className="w-full p-2 border rounded"
+                />
               </div>
-              <div className="form-buttons">
+              <div className="form-buttons flex justify-end gap-4">
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className="cancel-btn px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                   onClick={() => setShowFoundModal(false)}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="submit-btn">
+                <button
+                  type="submit"
+                  className="submit-btn px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+                >
                   Submit
                 </button>
               </div>

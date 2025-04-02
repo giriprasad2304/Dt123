@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { submitOrder } from '../api';
-import { OrderFormData } from '../types';
 import toast from 'react-hot-toast';
 
 export default function Order() {
@@ -9,7 +8,7 @@ export default function Order() {
   const navigate = useNavigate();
   const selectedItem = location.state?.item;
 
-  const [formData, setFormData] = useState<OrderFormData>({
+  const [formData, setFormData] = useState({
     name: '',
     flavor: selectedItem?.name || '',
     quantity: 1,
@@ -19,7 +18,7 @@ export default function Order() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -34,11 +33,9 @@ export default function Order() {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -52,10 +49,7 @@ export default function Order() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name
               </label>
               <input
@@ -70,10 +64,7 @@ export default function Order() {
             </div>
 
             <div>
-              <label
-                htmlFor="flavor"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="flavor" className="block text-sm font-medium text-gray-700">
                 Item
               </label>
               <input
@@ -88,10 +79,7 @@ export default function Order() {
             </div>
 
             <div>
-              <label
-                htmlFor="quantity"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
                 Quantity
               </label>
               <input
@@ -107,10 +95,7 @@ export default function Order() {
             </div>
 
             <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                 Phone Number
               </label>
               <input
@@ -125,16 +110,13 @@ export default function Order() {
             </div>
 
             <div>
-              <label
-                htmlFor="additionalInfo"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-700">
                 Additional Information
               </label>
               <textarea
                 id="additionalInfo"
                 name="additionalInfo"
-                rows={3}
+                rows="3"
                 value={formData.additionalInfo}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"

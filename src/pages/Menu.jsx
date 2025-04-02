@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMenu } from '../api';
-import { MenuCategory } from '../types';
 import { Loader2 } from 'lucide-react';
 
 export default function Menu() {
-  const [menu, setMenu] = useState<MenuCategory[]>([]);
+  const [menu, setMenu] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMenu = async () => {
